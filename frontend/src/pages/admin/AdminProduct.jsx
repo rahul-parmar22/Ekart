@@ -100,7 +100,7 @@ if(sortOrder === 'highToLow'){
 
     try {
       const res = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/v1/product/update/${editProduct._id}`,
+        `${import.meta.env.VITE_URL}/api/v1/product/update/${editProduct._id}`,
         formData,
         {
           headers: {
@@ -127,7 +127,7 @@ if(sortOrder === 'highToLow'){
         (product) => product._id !== productId,
       );
       const res = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/api/v1/product/delete/${productId}`,
+        `${import.meta.env.VITE_URL}/api/v1/product/delete/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
