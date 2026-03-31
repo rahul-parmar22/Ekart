@@ -63,7 +63,7 @@ const AddProducts = () => {
     try { 
       setLoading(true); 
       const res = await axios.post(
-        `http://localhost:8000/api/v1/product/add`,
+        `${import.meta.env.VITE_API_URL}/api/v1/product/add`,
         formData,
         {
           headers: {
