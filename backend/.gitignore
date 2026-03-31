@@ -1,0 +1,22 @@
+# Node.js dependencies and build artifacts
+node_modules/
+build/
+dist/
+.nyc_output/
+coverage/
+*.log
+npm-debug.log*
+concepts.txt
+# Environment variables
+.env
+.env.local
+
+# OS-specific files
+.DS_Store
+.idea/
+.vscode/
+
+# Optional: client-side specific ignores (if in a subdirectory, e.g., 'client/')
+client/build/
+client/node_modules/
+client/.parcel-cache
