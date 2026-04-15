@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
 //best src for this code: https://www.geeksforgeeks.org/node-js/how-to-send-email-using-node-js/
-export const verifyEmail = (email, token) => {
+export const verifyEmail = async(email, token) => {
             //aa fun jya call thay tya je order ma params aave chhe te j order ma ahi rakhva (email, token) ..nahi to email not send
 
   const transporter = nodemailer.createTransport({
