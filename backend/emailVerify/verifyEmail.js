@@ -12,8 +12,7 @@ try{
     },
   });
 
-  // 🔥 IMPORTANT: verify connection first (debugging)
-    await transporter.verify();
+
     console.log("SMTP Connected Successfully");
             
   // Define the email options
