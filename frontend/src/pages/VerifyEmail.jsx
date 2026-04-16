@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const VerifyEmail = () => {
-  const { token } = useParams();
+  const { token } = useParams();   //app.jsx ma route ma aa chhe ke verify/:token means what ke game tyare verify/sudfhisudhf aave to aa last ma je chhe e token ma set thai jashe em ane tene tame moklo header ma
   const [status, setStatus] = useState("Verifying...");
   const navigate = useNavigate();
 
