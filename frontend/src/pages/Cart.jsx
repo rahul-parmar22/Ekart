@@ -68,7 +68,7 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
-      const res = await privateApi.delete("cart/remove", {
+      const res = await privateApi.delete("/cart/remove", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
