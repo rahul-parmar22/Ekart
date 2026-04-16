@@ -1,11 +1,11 @@
 import { User } from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { verifyEmail } from "../emailVerify/verifyEmail.js";
 import { Session } from "../models/sessionModel.js";
 import { sendOTPMail } from "../emailVerify/sendOTPMail.js";
 import cloudinary from "../utils/cloudinary.js";
 import sharp from "sharp"; 
+import { verifyEmail } from "../emailVerify/verifyEmail.js";
 
 //aakha controller ma jetla pan if lagavela chhe khali ek nana route mate te badha edge case chhe..user kadach aadi avali rite kai pan kare to ek pan case baki no revo joi ane e badhane according response pan return karvano
 
@@ -37,8 +37,13 @@ export const register = async (req, res) => {
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "10m",
     });
-    verifyEmail(email, token); //send email here
-    newUser.token = token;
+  // await  verifyEmail(email, token); //send email here
+   console.log("📩 Sending email...");
+await verifyEmail(email, token);
+console.log("✅ Email function executed");
+   
+   
+   newUser.token = token;
     await newUser.save();
     return res.status(201).json({
       success: true,
