@@ -13,10 +13,10 @@ export const verifyEmail = async(email,token) => {
   });
 
   if(error){
-    return res.status(400).json({error})
+   console.log("email resend error:", error)
   }
 
-  res.status(200).json({data});
+ console.log(data)
   
 }
 
