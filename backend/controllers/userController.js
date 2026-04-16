@@ -60,14 +60,24 @@ console.log("✅ Email function executed");
 
 export const verify = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;  //headers always lowercase  ma hoy chhe..to ahi headers.Autorization em no lakhvu
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-     return  res.status(400).json({
+  //  const authHeader = req.headers.authorization;  //headers always lowercase  ma hoy chhe..to ahi headers.Autorization em no lakhvu
+    // if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    //  return  res.status(400).json({
+    //     success: false,
+    //     message: "Authorization token is missing or invalid",
+    //   });
+    // } 
+    //    const token = authHeader.split(" ")[1]; //[Bearer fasfsdfs89asdf..]
+    //jyare frontend thi token header ma avtu to token aa rite leta to aa uparno code aave
+
+    const { token } = req.params;   // 🔥 yaha se token lena hai 
+      if (!token) {
+      return res.status(400).json({
         success: false,
-        message: "Authorization token is missing or invalid",
+        message: "Token missing",
       });
     }
-    const token = authHeader.split(" ")[1]; //[Bearer fasfsdfs89asdf..]
+    
     let decoded;
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
