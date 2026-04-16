@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userSlice from "./userSlice.js";
 import productSlice from "./productSlice.js";
-
-import {
-  persistReducer,
+                  
+import {           //redux(memory storage but page refresh or app close its clear..) //localstorage  hold data for that site in memory and when next time user visit so its give old data
+                   //persist e redux and localstorage vacheno bridge chhe ...redux thi koi event dispatch thay etale ek copy localstorage ma banavi nakhe ane jyare page reload thay to localstorage thi pachhi redux ma store pan kari nakhe....to ek briidge jevu kam kare redux-persist...
+                   //mate jovanu ke game tyare state change thay etale sathe sathe localstore ma pan value update thay ane next time reload time e localstorage mathi redux state ma change thay value             
+  persistReducer,   //gemini or chatgpt kari levu for more detailed ..explain this code line by line
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -21,7 +23,7 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   user: userSlice,
-  product: productSlice, //ahi je product: key chhe e useSelector thi calue store thi select kare je componnet tya aa same aapvanu hoy example:   const { products } = useSelector((store) => store.product); ahi je store.product chhe to e ahini key "product" chhee e chhe..jo "store.prodcuts" thay to no chale kemke ek "s" extra aavi gyo...desetructure no thay
+  product: productSlice, //ahi je product: key chhe e useSelector thi value store thi select kare je componnet tya aa same aapvanu hoy example:   const { products } = useSelector((store) => store.product); ahi je store.product chhe to e ahini key "product" chhee e chhe..jo "store.prodcuts" thay to no chale kemke ek "s" extra aavi gyo...desetructure no thay
  
 });
 

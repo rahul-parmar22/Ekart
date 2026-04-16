@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, register, verify,reVerify, logout, forgotPassword, verifyOTP, changePassword, allUser, getUserById, updateUser } from "../controllers/userController.js";
+import { login, register, verify,reVerify, logout, forgotPassword, verifyOTP, changePassword, allUser, getUserById, updateUser, refreshAccessToken } from "../controllers/userController.js";
 import { isAdmin, isAuthenticated } from "../middleware/isAuthenticated.js";
 import { singleUpload } from "../middleware/multer.js";
 
@@ -10,6 +10,7 @@ router.post('/register', register);
 router.post('/verify', verify); 
 router.post('/reverify', reVerify); 
 router.post('/login', login);
+router.post('/refreshAccessToken', refreshAccessToken)
 router.post('/logout',isAuthenticated, logout);
 router.post('/forgot-password', isAuthenticated, forgotPassword);
 router.post('/verify-otp/:email', verifyOTP) //aa badha backend na route chhe to aa badha upar url ma no hoy..

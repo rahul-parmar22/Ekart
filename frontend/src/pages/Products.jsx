@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/select";
 import ProductCard from "@/components/ProductCard";
 import { toast } from "sonner";
-import axios from "axios";
 import { useDispatch, useSelector} from "react-redux";
 import { setProducts } from "@/redux/productSlice";
+import { privateApi } from "@/api/axios";
 
 const Products = () => {
   const { products } = useSelector((store) => store.product);
@@ -28,8 +28,8 @@ const Products = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `${import.meta.env.VITE_URL}/api/v1/product/getallproducts`,
+      const res = await privateApi.get(
+       "/product/getallproducts",
       );
       if (res.data.success) {
         setAllProducts(res.data.products);

@@ -1,10 +1,10 @@
 import React from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setCart } from "@/redux/productSlice";
 import { toast } from "sonner";
+import { privateApi } from "@/api/axios";
 
 const ProductDesc = ({ product }) => {
   const accessToken = localStorage.getItem("accessToken");
@@ -12,8 +12,8 @@ const ProductDesc = ({ product }) => {
 
   const addToCart = async (productId) => {
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_URL}/api/v1/cart/add`,
+      const res = await privateApi.post(
+       "/cart/add",
         { productId },
         {
           headers: {

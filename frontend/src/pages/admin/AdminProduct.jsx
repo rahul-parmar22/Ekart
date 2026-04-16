@@ -36,11 +36,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUpload from "@/components/ImageUpload";
-import axios from "axios";
 import { toast } from "sonner";
 import { setProducts } from "@/redux/productSlice";
 import userLogo from '/public/defaultProfilePic.png'
 import { useNavigate } from "react-router-dom";
+import { privateApi } from "@/api/axios";
 
 const AdminProduct = () => {
   const { products } = useSelector((store) => store.product);
@@ -99,8 +99,8 @@ if(sortOrder === 'highToLow'){
       });
 
     try {
-      const res = await axios.put(
-        `${import.meta.env.VITE_URL}/api/v1/product/update/${editProduct._id}`,
+      const res = await privateApi.put(
+       "/product/update/${editProduct._id}",
         formData,
         {
           headers: {
@@ -126,8 +126,8 @@ if(sortOrder === 'highToLow'){
       const remainingProducts = products.filter(
         (product) => product._id !== productId,
       );
-      const res = await axios.delete(
-        `${import.meta.env.VITE_URL}/api/v1/product/delete/${productId}`,
+      const res = await privateApi.delete(
+      "/product/delete/${productId}",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

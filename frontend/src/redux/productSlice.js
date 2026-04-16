@@ -33,7 +33,6 @@ const productSlice= createSlice({
         state.selectedAddress = null
        }
     }
-
     }
 })
 export const {setProducts,setCart,addAddress, setSelectedAddress, deleteAddress }= productSlice.actions

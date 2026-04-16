@@ -13,10 +13,10 @@ import { Button } from "@/components/ui/button";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import axios from "axios";
 import { Loader } from "lucide-react";
 import { setUser } from "@/redux/userSlice.js";
 import MyOrder from "./MyOrder.jsx";
+import { privateApi } from "@/api/axios.js";
 
 const Profile = () => {
 
@@ -77,7 +77,7 @@ if(file){
   formData.append("file",file )//image file for backend multer //ahi name shu aapvu te khas khyal rakhvo...
 } 
 
-const res= await axios.put(`${import.meta.env.VITE_URL}/api/v1/user/update/${userId}`,formData, {
+const res= await privateApi.put("/user/update/${userId}",formData, {
   headers:{
   Authorization: `Bearer ${accessToken}`,
   "Content-Type":"multipart/form-data"

@@ -2,12 +2,13 @@ import React from "react";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
-import axios from "axios";
+
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setCart } from "@/redux/productSlice";
 import Products from "@/pages/Products";
+import { privateApi } from "@/api/axios";
 
 const ProductCard = ({ product, img, loading }) => {
   const { productName, productImg, productPrice ,productStock } = product;
@@ -25,8 +26,8 @@ const ProductCard = ({ product, img, loading }) => {
     }   //upare return lakhvu jaruri chhe nahito karan vina nicheno code to run thashe j ..extra api call thashe
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_URL}/api/v1/cart/add`,
+      const res = await privateApi.post(
+        "/cart/add",
         { productId },
         {
           headers: {

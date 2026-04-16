@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import OrderCard from "@/components/OrderCard";
+import { privateApi } from "@/api/axios";
 
 const MyOrder = () => {
   const [userOrder, setUserOrder] = useState(null);
@@ -9,8 +9,8 @@ const MyOrder = () => {
   const getUserOrders = async () => {
     const accessToken = localStorage.getItem("accessToken");
 
-    const res = await axios.get(
-      `${import.meta.env.VITE_URL}/api/v1/orders/myorder`,
+    const res = await privateApi.get(
+     "/orders/myorder",
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

@@ -13,10 +13,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import ImageUpload from "@/components/ImageUpload";
 import { toast } from "sonner";
-import axios from "axios";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "@/redux/productSlice";
 import { Loader2 } from "lucide-react";
+import { privateApi } from "@/api/axios";
 
 const AddProducts = () => {
   const accessToken = localStorage.getItem("accessToken");
@@ -62,8 +63,8 @@ const AddProducts = () => {
     });
     try { 
       setLoading(true); 
-      const res = await axios.post(
-        `${import.meta.env.VITE_URL}/api/v1/product/add`,
+      const res = await privateApi.post(
+        "/product/add",
         formData,
         {
           headers: {

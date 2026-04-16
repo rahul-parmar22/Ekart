@@ -1,4 +1,5 @@
-import axios from "axios";
+import { privateApi } from "@/api/axios";
+
 import React, { useEffect, useState } from "react";
 
 const AdminOrders = () => {
@@ -10,8 +11,8 @@ const AdminOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_URL}/api/v1/orders/all`,
+        const { data } = await privateApi.get(
+         "/orders/all",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

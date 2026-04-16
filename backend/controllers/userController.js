@@ -178,17 +178,23 @@ export const login = async (req, res) => {
       { id: existingUser._id },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h", //10 min ke 15 min rakhvo..mare practice karva ma vandho no aave tethi 1h chhe ..kemke 10 min rakhine pachhi refresh token no use karvano hoy ..je access token no time pura thay to new token refresh kare
+        expiresIn: "15m", //10 min ke 15 min rakhvo..mare practice karva ma vandho no aave tethi 1h chhe ..kemke 10 min rakhine pachhi refresh token no use karvano hoy ..je access token no time pura thay to new token refresh kare
       },
     );
 
     const refreshToken = jwt.sign(
       { id: existingUser._id },
-      process.env.JWT_SECRET,
+      process.env.REFRESH_SECRET,
       {
         expiresIn: "30d",
       },
     );
+
+    res.cookie("refreshToken", refreshToken,{     //aanathi aapane refresh token ne cookie ma store karvi chhie..jethi req.cookies thi aapane token ne access kari shakvi
+      httpOnly:true,
+      secure:false, //production karvi tyare true rakhvi value
+      sameSite:"lax"
+    })
 
     existingUser.isLoggedIn = true;
     await existingUser.save();
@@ -206,7 +212,6 @@ export const login = async (req, res) => {
       success: true,
       message: `Welcome back, ${existingUser.firstName}`,
       accessToken,
-      refreshToken,
       user: existingUser,
     });
   } catch (error) {
@@ -214,6 +219,32 @@ export const login = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const refreshAccessToken = (req,res)=>{
+  
+  const token = req.cookies?.refreshToken;   //cookies //plural use... not req.cookie
+    
+  console.log("🔁 Refresh API called");
+console.log("Cookies:", req.cookies?.refreshToken);
+
+ if(!token){
+  return res.status(401).json({message:"No refresh token"}); 
+
+ }
+    try {
+const decoded =   jwt.verify(token, process.env.REFRESH_SECRET); 
+ 
+const newAccessToken = jwt.sign(
+  {id:decoded.id},
+  process.env.JWT_SECRET , 
+  {expiresIn:"15m"}
+);
+
+res.json({accessToken:newAccessToken});
+  } catch (error) {
+    return res.status(403).json({success:false, message:"invalid refresh token"})
+  }
+}
 
 export const logout = async (req, res) => {
   try {

@@ -15,6 +15,7 @@ import { Eye, EyeOff, Loader, Type } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
+import { publicApi } from "@/api/axios";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,8 +43,8 @@ const Signup = () => {
     try {
       
       setLoading(true)
-      const res = await axios.post(
-        `${import.meta.env.VITE_URL}/api/v1/user/register`,
+      const res = await publicApi.post(
+       "/user/register",
         formData,
         { headers: { "Content-Type": "application/json" } },
       );

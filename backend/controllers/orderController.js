@@ -1,4 +1,3 @@
-import { log } from "console";
 import razorpayInstance from "../config/razorpay.js";
 import { Cart } from "../models/cartModel.js";
 import { Order } from "../models/orderModel.js";
@@ -10,13 +9,13 @@ export const createOrder = async (req, res) => {
   try {
     const { products, amount, tax, shipping, currency } = req.body;
     const options = {
-      amount: Math.round(Number(amount) * 100), //convert to paise
+      amount: Math.round(Number(amount) * 100), //convert to paise//👉 Razorpay paisa me leta hai (₹1 = 100 paise)
       currency: currency || "INR",
-      receipt: `receipt_${Date.now()}`,
+      receipt: `receipt_${Date.now()}`,   //👉 unique ID tracking ke liye
     };
 
     const razorpayOrder = await razorpayInstance.orders.create(options); //method chhe yad j rakhvi..order create thata time lage mate await // console log karine joi levu ke shu shu return kare chhe aa means razorpayOrder ma shu shu aavshe em
-
+                                            //👉 Razorpay server ko call kiya...👉 Wo ek official order banata hai
     //save order in DB
     const newOrder = new Order({
       user: req.user._id,
@@ -26,7 +25,7 @@ export const createOrder = async (req, res) => {
       shipping,
       currency,
       status: "Pending", //bydefault pending hashe
-      razorpayOrderId: razorpayOrder.id,
+      razorpayOrderId: razorpayOrder.id,  //👉 Razorpay ka order ID save (VERY IMPORTANT)
     });
 
     await newOrder.save();
@@ -45,14 +44,14 @@ export const createOrder = async (req, res) => {
   }
 };
 
-export const verifyPayment = async (req, res) => {
+export const verifyPayment = async (req, res) => { //👉 Jab payment complete hota hai, frontend yaha hit karta hai
   try {
     const {
       razorpay_order_id,
       razorpay_payment_id,
       razorpya_signature,
       paymentFailed,
-    } = req.body;
+    } = req.body;           //handler(response) ma je tame response tya aapo e ahi aave chhe req.body ma..ane direct destructure karie chhie aapane....
     const userId = req.user._id;
 
     if (paymentFailed) {
@@ -67,8 +66,8 @@ export const verifyPayment = async (req, res) => {
     }
 
     const sign = razorpay_order_id + "|" + razorpay_payment_id;
-    const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_SECRET)
+    const expectedSignature = crypto                               //👉 Fake payment avoid karne ke liye.. 👉 Sirf Razorpay hi correct signature bana sakta hai    
+      .createHmac("sha256", process.env.RAZORPAY_SECRET)  //ahi je razorpay secret chhe e razorpayna dashboard ma tame config karelu hoy to razorpya tyathi aa badhu laine ek generate kare signature and tame aaya manually generate karavo ane banne ne check karo etale khabar padi jay ke jo same hoy to "paid" em 
       .update(sign.toString())
       .digest("hex");
 

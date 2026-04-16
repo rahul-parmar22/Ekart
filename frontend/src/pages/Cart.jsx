@@ -7,9 +7,9 @@ import { ShoppingCart, Trash2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { setCart } from "@/redux/productSlice";
 import { toast } from "sonner";
+import { privateApi } from "@/api/axios";
 
 const Cart = () => {
   const { cart } = useSelector((store) => store.product);
@@ -33,7 +33,7 @@ const Cart = () => {
 
   const loadCart = async () => {
     try {
-      const res = await axios.get(`${API}/`, {
+      const res = await privateApi.get("/", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -48,8 +48,8 @@ const Cart = () => {
 
   const handleUpdateQuantity = async (productId, type) => {
     try {
-      const res = await axios.put(
-        `${API}/update`,
+      const res = await privateApi.put(
+        "/update",
         { productId, type },
         {
           headers: {
@@ -68,7 +68,7 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
-      const res = await axios.delete(`${API}/remove`, {
+      const res = await privateApi.delete("/remove", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

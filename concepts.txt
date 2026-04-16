@@ -88,3 +88,27 @@ findById() internally findOne({ _id: id }) ka shortcut hai
 | **Multiple docs** | Yes                               | No                             |
 
 /////////////////////////////////////////////
+
+
+cookie:: 
+
+🍪 1. Cookie me refresh token kaise store hota hai?
+
+👉 Tum frontend se manually store nahi karte
+👉 Backend automatically browser me set karta hai
+
+✅ Backend (login route)
+res.cookie("refreshToken", refreshToken, {
+  httpOnly: true,
+  secure: true,        // Render + Netlify ke liye required
+  sameSite: "none",    // cross-origin ke liye important
+  maxAge: 7 * 24 * 60 * 60 * 1000
+});
+
+👉 Bas ye likhne se:
+
+browser khud cookie save karega
+tum JS se access nahi kar sakte (secure 👍)
+
+
+/////////////////////////////////////////////////////////////

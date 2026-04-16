@@ -6,6 +6,7 @@ import productRoute from './routes/productRoute.js'
 import cartRoute from './routes/cartRoutes.js'
 import orderRoute from './routes/orderRoute.js'
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 //dinesh pawar  video for deploying backen on render 
 //https://www.youtube.com/watch?v=lDpK8YWmYDA
@@ -17,10 +18,12 @@ const port = process.env.PORT || 3000;
 //middleware
 app.use(express.json());
 app.use(cors({
-   origin: "https://electronicsitem.netlify.app",
+   origin: ["https://electronicsitem.netlify.app","http://localhost:5173" ],
    credentials: true
    }));
-   
+app.use(cookieParser());  //🔹 2. cookie-parser kya hai?..👉 Ye Express middleware hai...👉 Internally ye cookie package ka hi use karta hai.... now easily access req.cookies.refreshToken
+
+
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/product",productRoute);
 app.use("/api/v1/cart",cartRoute);

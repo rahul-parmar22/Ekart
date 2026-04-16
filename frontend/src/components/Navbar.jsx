@@ -2,10 +2,10 @@ import { ShoppingCart } from "lucide-react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import axios from "axios";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/userSlice";
+import { publicApi } from "@/api/axios";
      
                         //DROPDOWN MENU: navbar na menu ne click karvathi khule bdha option tene dropdown menu kevay shadcn ma
 const Navbar = () => {
@@ -21,8 +21,8 @@ const Navbar = () => {
                                   //<Navigate> redirect kare page ne.. uparna bey url ma change kare ane pachhi page show thay em..aa direct par java de....
                                   const logoutHandler = async () => {
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_URL}/api/v1/user/logout`,
+      const res = await publicApi.post(
+       "/user/logout",
         {},
         {
           headers: {

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { privateApi } from "@/api/axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -9,8 +9,8 @@ const VerifyEmail = () => {
 
   const VerifyEmail = async () => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_URL}/api/v1/user/verify`,
+      const response = await privateApi.post(
+        "/user/verify",
         {},
         {
           headers: {

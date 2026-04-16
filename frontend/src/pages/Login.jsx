@@ -13,10 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Loader, Type } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/userSlice";
+import { publicApi } from "@/api/axios";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,10 +38,12 @@ const Login = () => {
     e.preventDefault();
     try {
          setLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_URL}/api/v1/user/login`,
+      const response = await publicApi.post(
+        "/user/login",
         formData,
-        { headers: { "Content-Type": "Application/json" } },
+        { withCredentials:true,  //with credentials must chhe...jo aa nahi aapo to cookie ma refresh token  je login samye browser ma store thay chhe e nahi thay store // headers ni andar nahi aave...configuration chhe to header ni bahar aavshe
+            //withcred:true means Browser ko bol rahe ho:: “Bhai, request ke saath cookies bhi bhejna aur server se aane wali cookies ko save bhi karna”
+          headers: { "Content-Type": "Application/json"  } }, 
       );
       console.log(response.data);
 

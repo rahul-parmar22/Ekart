@@ -8,8 +8,9 @@ import userLogo from "/public/defaultProfilePic.png";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+
 import { setUser } from "@/redux/userSlice";
+import { privateApi } from "@/api/axios";
 
 const UserInfo = () => {
   const navigate = useNavigate();
@@ -59,8 +60,8 @@ const UserInfo = () => {
         formData.append("file", file); //image file for backend multer //ahi name shu aapvu te khas khyal rakhvo...
       }
 
-      const res = await axios.put(
-        `${import.meta.env.VITE_URL}/api/v1/user/update/${userId}`,
+      const res = await privateApi.put(
+       "/user/update/${userId}",
         formData,
         {
           headers: {
@@ -86,8 +87,8 @@ const UserInfo = () => {
 
   const getUserDetails = async () => {
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_URL}/api/v1/user/get-user/${userId}`,
+      const res = await privateApi.get(
+        "/user/get-user/${userId}",
       );
       if (res.data.success) {
         setUpdateUser(res.data.user);

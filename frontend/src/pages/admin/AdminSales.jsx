@@ -1,5 +1,5 @@
+import { privateApi } from "@/api/axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   Area,
@@ -25,8 +25,8 @@ const AdminSales = () => {
   const fetchStats = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      const res = await axios.get(
-        `${import.meta.env.VITE_URL}/api/v1/orders/sales`,
+      const res = await privateApi.get(
+       "/orders/sales",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

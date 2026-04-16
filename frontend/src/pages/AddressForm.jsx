@@ -1,3 +1,4 @@
+import { privateApi } from "@/api/axios";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,7 +10,6 @@ import {
   setCart,
   setSelectedAddress,
 } from "@/redux/productSlice";
-import axios from "axios";
 import { Currency } from "lucide-react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,14 +51,22 @@ const AddressForm = () => {
   const total = subtotal + shipping + tax;
 
   console.log(cart);
-
+                                     //   💡 Payment flow
+                                     // 👉 Flow kya hai:
+                                     // User “Pay Now” click karta hai
+                                     // Frontend backend ko bolta hai: “order bana do”
+                                     // Backend Razorpay order create karta hai
+                                     // Frontend Razorpay popup open karta hai
+                                     // User payment karta hai
+                                     // Razorpay response deta hai
+                                     // Hum backend ko verify karte hain
   const handlePayment = async () => {
     const accessToken = localStorage.getItem("accessToken");
     try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_URL}/api/v1/orders/create-order`,
+      const { data } = await privateApi.post( //directly res object descructure res.data
+       "/orders/create-order",
         {
-          products: cart?.items?.map((item) => ({
+          products: cart?.items?.map((item) => ({   //array banave badhi item  na objectno ane ek object ma product ni Id and quantity  👉 Cart ke items ko clean format me convert kar rahe ho
             productId: item.productId._id,
             quantity: item.quantity,
           })),
@@ -75,18 +83,27 @@ const AddressForm = () => {
 
       console.log("Razorpay data:", data);
 
-      const options = {
-        key: import.meta.env.VITE_RAZORRPAY_KEY_ID,
-        amount: data.order.amount,
+      const options = {  //what is option? 👉 Ye Razorpay ka configuration hai...👉 Isme sab settings hoti hain
+        key: import.meta.env.VITE_RAZORRPAY_KEY_ID,   //👉 Razorpay public key...👉 frontend me safe hoti hai
+      
+                                //below three is 👉 Backend me jo order banaya razorpayInstance ne vo order backend ke res me aa rha hai to ye us order ki detailes hai..👉 Wo Razorpay ko pass ho raha hai
+        amount: data.order.amount,   //see backend logic...what is in response given by create-order controller                                
         currency: data.order.currency,
         order_id: data.order.id, //Order ID from backend
+
+                             // below both is Basic UI info 👉 Razorpay popup me dikhata hai
         name: "Ekart",
         description: "Order Payment",
-        handler: async function (response) { //response kyathi aave chhe?? 
+
+                                           //rozarpay ma uparni info jay ane payment successfull thay pachhi nicheno function chalshe.....
+        handler: async function (response) { //❓ response kya hota hai?...👉 Razorpay automatically yaha bhejta hai:: niche chhe e object
+                                            //{razorpay_payment_id: "...",  razorpay_order_id: "...",  razorpay_signature: "..." } 
+                                          //👉 Payment SUCCESS hone ke baad ye function run hota hai....
           try {
-            const verifyRes = await axios.post(
-              `${import.meta.VITE_URL}/api/v1/orders/verify-payment`,
-              response,
+            console.log(response)  //razorpay e res ma shu mokalyu te jova mate
+            const verifyRes = await privateApi.post(    //👉 Backend ko bol rahe ho:: “Check karo payment asli hai ya fake”
+             "/orders/verify-payment",                  //backend ma verify payment ma je req.body thi badhi id and sugnature lyo chho e ahithi jay chhe
+              response,                                   //razorpay ma paymetn thai gya pachhi je resopnse aavyo te backend ne mokaliye chhie..aa handler payment pachhi chalshe to response ma razorpay shu mokle te console karavi shakay ke pachhi upar lakhelu j chhe
               {
                 headers: {
                   Authorization: `Bearer ${accessToken}`,
@@ -104,38 +121,44 @@ const AddressForm = () => {
             console.log(error)
             toast.error("Error verifying paymnet");
           }
-        },
-        modal: {
-          ondismiss: async function () {
+        },      //handler tabhi run hota hai jab:👉 USER SUCCESSFULLY PAYMENT COMPLETE karta hai.... ye hum manually run nahi karte after successful rozarpay automatic trigger karta ahi
+               //rozarpay flow:: rzp.open() 1. User popup open karta hai... 2. User payment karta hai (UPI/Card)..3. Razorpay server verify karta hai..4. Agar SUCCESS: ye trigger hota hai :handler(response)..                 
+
+
+        modal: {   //🔹modal close event...❌ USER CLOSES PAYMENT WINDOW..🚪  User CLOSED popup...user ne cancle kar diya
+          ondismiss: async function () {      //👉 User ne payment cancel kiya to ye chalega  // User ne popup close kar diya ❌“Cancel” press kiya ❌Payment start hi nahi ki ❌  👉 Yaha payment attempt hi nahi hua
+         "/orders/verify-payment",                             
             //Handle user closing the popup  //webhooks thi
-            await axios.post(
-              `${import.meta.VITE_URL}/api/v1/orders/verify-payment`,
+            await privateApi.post(               
+             "/orders/verify-payment",
               {
                 razorpay_order_id: data.order.id,
-                paymentFailed: true,
-              },
+                paymentFailed: true,    //user modal close kari de to 👉 Backend ko bol rahe: “user ne cancel kiya”...
+              },                         //to modal close--> cancel order--> paymentFailed true aapvi aapane ane backend ma mate aapane tya joyu htu ke paymentFaield:true means faield hoy to order nu status faield batavo em
               {
                 headers: {
-                  Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${accessToken}`,
                 },
               },
             );
             toast.error("Payment Cancelled or Failed");
           },
         },
-        prefill: {
+        prefill: {    //👉 Razorpay popup me auto fill ho jata hai ye data
           name: formData.fullName,
           email: formData.email,
           contact: formData.phone,
         },
-        theme: { color: "#F472B6" },
+        theme: { color: "#F472B6" },     //👉 popup ka color
       };
-      const rzp = new window.Razorpay(options);
 
-      // Listen for payment failures
-      rzp.on("payment.failed", async function (response) {
-        await axios.post(
-          `${import.meta.VITE_URL}/api/v1/orders/verify-payment`,
+      //🚀 RAZORPAY OPEN
+      const rzp = new window.Razorpay(options); //“Razorpay ka payment engine ready karo, but open mat karo”// so ab:popup ready hai...settings loaded hain...but UI open nahi hu  open tab hoga jab rzp.open() hoga  
+
+      // Listen for payment failures  // 
+      rzp.on("payment.failed", async function (response) { //rzp.on("payment.failed");  -->💥 1. payment.failed kab chalta hai?....Card declined ❌UPI fail ❌Bank reject ❌   👉Payment attempt hua, but success nahi hua......👉 Yaha user ne TRY to pay kiya tha, but fail ho gaya tab chalega...
+        await privateApi.post(                //modal: ondismiss(option ma chhe e) kyare chalshe jyare   User ne popup close kar diya ❌“Cancel” press kiya ❌Payment start hi nahi ki ❌  👉 Yaha payment attempt hi nahi hua
+         "/orders/verify-payment",                             
           {
             razorpay_order_id: data.order.id,
             paymentFailed: true,
@@ -150,7 +173,12 @@ const AddressForm = () => {
 
       });
 
-      rzp.open()
+
+
+
+                    //index.html me popup ki script dali hai to isaliye ye popup khulta hai 
+      rzp.open()   // means “ab payment popup dikhao user ko”//  Razorpay UI open hota hai ...user card/UPI choose karta hai...payment process start hota hai
+                 //🎯 Popup me kya hota hai?..Razorpay khud show karta hai:Card input 💳...UPI QR 📱..Netbanking 🏦..Wallets(👉 ye sab tu nahi banata ❌....👉 Razorpay ka ready-made UI hai ✔️(ui design, payment methods sab razorpay karta hai))
     } catch (error) {
       console.error(error);
       
