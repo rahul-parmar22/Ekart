@@ -60,9 +60,9 @@ console.log("✅ Email function executed");
 
 export const verify = async (req, res) => {
   try {
-    const authHeader = req.headers.Authorization;
+    const authHeader = req.headers.authorization;  //headers always lowercase  ma hoy chhe..to ahi headers.Autorization em no lakhvu
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      res.status(400).json({
+     return  res.status(400).json({
         success: false,
         message: "Authorization token is missing or invalid",
       });
