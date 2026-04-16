@@ -197,8 +197,10 @@ export const login = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken,{     //aanathi aapane refresh token ne cookie ma store karvi chhie..jethi req.cookies thi aapane token ne access kari shakvi
       httpOnly:true,
-      secure:false, //production karvi tyare true rakhvi value
-      sameSite:"lax"
+        secure: true,        // 🔥 MUST in production (HTTPS)
+  sameSite: "none",    // 🔥 REQUIRED for cross-site (Netlify ↔ Render) //“Chahe frontend kisi bhi domain pe ho (Netlify), main cookie backend (Render) ko bhej dunga.”
+    // secure:false,   local host ma aa chale but netlify, render mate//production karvi tyare true rakhvi value
+      // sameSite:"lax"
     })
 
     existingUser.isLoggedIn = true;
