@@ -60,7 +60,7 @@ console.log("✅ Email function executed");
 
 export const verify = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers.Authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       res.status(400).json({
         success: false,
