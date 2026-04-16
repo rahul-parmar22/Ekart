@@ -10,12 +10,12 @@ const VerifyEmail = () => {
   const VerifyEmail = async () => {
     try {
       const response = await privateApi.post(
-        "/user/verify",
+        `/user/verify/${token}`,
         {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        // {   //avi rite token send karta to mobile ma direct verified natu chaltu..kaik preflight jevu pela load thay pachhi aa headers load thay to e preflight headers ne block kare evo kaik issue hato to have teni jagyae direct url ma token mokline direct backend url mathi j lai leshe token
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
         },
       );
       if (response.data.success) {
