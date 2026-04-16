@@ -54,7 +54,11 @@ const AdminUser = () => {
         <Search className="absolute left-2 top-1 text-gray-600 " />
         <Input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="Search Userse" className="pl-10" />
       </div>
+<<<<<<< HEAD
       <div className= "max-w-7xl grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 mt-7">
+=======
+      <div className= "max-w-7xl grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 mt-7 ">
+>>>>>>> 37a141eac4e72700edc7b9ec69ac46dae38a2be8
         {
           filteredUsers.map((user,index)=>{
             return <div key={index} className="bg-pink-100 p-5 rounded-lg">
