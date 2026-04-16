@@ -28,12 +28,12 @@ const Cart = () => {
   const navigate = useNavigate();   // navigate("products/498574")  to aa relateive path chhe ..upar je url chhe emaj aa path jodashe.. jo cart ma hov ane aa navigate thay to path ma localhost/cart/product/454 bane mate navigate(/products/4545) to aa new path bane .... 
   const dispatch = useDispatch();
 
-  const API = `${import.meta.env.VITE_URL}/api/v1/cart`; // axios ma get,post,put, delete method mate data pass karvana different order chhe to e order ma data pass karva anhi to error... like delete(url, header,) ane headers ma data, post mate post(url,data, headers) to aa khas dhyan rakhvu
+  //const API = `${import.meta.env.VITE_URL}/api/v1/cart`; // axios ma get,post,put, delete method mate data pass karvana different order chhe to e order ma data pass karva anhi to error... like delete(url, header,) ane headers ma data, post mate post(url,data, headers) to aa khas dhyan rakhvu
   const accessToken = localStorage.getItem("accessToken");
 
   const loadCart = async () => {
     try {
-      const res = await privateApi.get("/", {
+      const res = await privateApi.get("/cart", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -49,7 +49,7 @@ const Cart = () => {
   const handleUpdateQuantity = async (productId, type) => {
     try {
       const res = await privateApi.put(
-        "/update",
+        "/cart/update",
         { productId, type },
         {
           headers: {
@@ -68,7 +68,7 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
-      const res = await privateApi.delete("/remove", {
+      const res = await privateApi.delete("cart/remove", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
