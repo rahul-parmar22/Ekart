@@ -195,12 +195,16 @@ export const login = async (req, res) => {
       },
     );
 
+
+              // httpOnly: true → browser me visible hai, but JS usko read nahi kar sakta  //Browser (Application tab) → full control panel hai. Yahan tum har cookie dekh sakte ho (even httpOnly bhi).
+              // httpOnly: false → JS bhi read kar sakta hai //JavaScript (document.cookie) → sirf un cookies ko dekh sakta hai jo httpOnly: false hain.
+          //tamra pc na cookies ma tame refreshtoken ne joi shako chho....
     res.cookie("refreshToken", refreshToken,{     //aanathi aapane refresh token ne cookie ma store karvi chhie..jethi req.cookies thi aapane token ne access kari shakvi
-      httpOnly:true,
-        secure: true,        // 🔥 MUST in production (HTTPS)
+      httpOnly:true,    //JS access nahi kar sakta...frontend ma accessible no hoy cookie..browser ma store thay// ❌ JavaScript (frontend code) cookie read/write nahi kar sakta....document.cookie me nahi dikhegi....console.log(document.cookie); tame aa no❌ kari shako read/write...refresh token tame jo joi shako...pan tamara device ma tamare jovu hoy to application ma cookie ma joi shako karane ke ej browser chhe....
+        secure: true,        // 🔥 MUST in production (HTTPS)   //https hoy to j chale...mate jyare aapane localhost ma hovi tyare http hoy s no hoy mate tyare aane false karvi aapane
   sameSite: "none",    // 🔥 REQUIRED for cross-site (Netlify ↔ Render) //“Chahe frontend kisi bhi domain pe ho (Netlify), main cookie backend (Render) ko bhej dunga.”
     // secure:false,   local host ma aa chale but netlify, render mate//production karvi tyare true rakhvi value
-      // sameSite:"lax"
+      // sameSite:"lax"  //lax means 
     })
 
     existingUser.isLoggedIn = true;
