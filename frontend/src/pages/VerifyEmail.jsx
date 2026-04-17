@@ -7,7 +7,7 @@ const VerifyEmail = () => {
   const [status, setStatus] = useState("Verifying...");
   const navigate = useNavigate();
 
-  const VerifyEmail = async () => {
+  const Verify = async () => {
     try {
       const response = await privateApi.post(
         `/user/verify/${token}`,
@@ -16,7 +16,7 @@ const VerifyEmail = () => {
         //   headers: {
         //     Authorization: `Bearer ${token}`,
         //   },
-        },
+      
       );
       if (response.data.success) {
         setStatus("✅ Email verified Successfully");
@@ -32,7 +32,7 @@ const VerifyEmail = () => {
   };
 
   useEffect(() => {
-    VerifyEmail();  //aa underline na solution mate niche comments jovo
+    Verify();  //aa underline na solution mate niche comments jovo
   }, [token]);
 
   return (

@@ -29,11 +29,11 @@ import OrderSuccess from './pages/OrderSuccess.jsx'
 const router = createBrowserRouter([
   {
     path:'/', 
-    element:<><Navbar/><Home/><Footer/></>
-  },
+    element:<><Navbar/><Home/><Footer/></> 
+  },         
   {
     path:'/signup',
-    element:<><Signup/></>
+    element:<><Signup/></>   //fragment unnecessary chhe... only direct <Signup/> rakhi shako darek jagyae jya single element chhe tyathi remove
   },
   {
 path:'/login',
@@ -44,7 +44,7 @@ element:<><Login/></>
     element: <><Verify/></> 
   }, 
   {
-    path:'/verify/:token',
+    path:'/verify/:token',     //verify/isdfhsf  means verify/ pachhi je pan hoy te badhane token ma nakhi dyo em...  params ma aa  badhu token ma aave {token} = useParams(); 
     element:<><VerifyEmail/></>
   },
   {
