@@ -26,7 +26,7 @@ const VerifyEmail = () => {
       }
     } catch (error) {
       console.log(error);
-      setStatus("❌ Verifcation failed. Please try again");
+      setStatus(error.response?.data?.message ||"❌ Something went wrong");
       //console.log(error.response.data.message)
     }
   };
