@@ -7,7 +7,7 @@ import { singleUpload } from "../middleware/multer.js";
 const router = Router();
 
 router.post('/register', register);
-router.post('/verify', verify); 
+router.post('/verify/:token', verify); 
 router.post('/reverify', reVerify); 
 router.post('/login', login);
 router.post('/refreshAccessToken', refreshAccessToken)

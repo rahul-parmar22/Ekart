@@ -61,7 +61,7 @@ const UserInfo = () => {
       }
 
       const res = await privateApi.put(
-       "/user/update/${userId}",
+       `/user/update/${userId}`,
         formData,
         {
           headers: {
@@ -88,7 +88,7 @@ const UserInfo = () => {
   const getUserDetails = async () => {
     try {
       const res = await privateApi.get(
-        "/user/get-user/${userId}",
+        `/user/get-user/${userId}`,
       );
       if (res.data.success) {
         setUpdateUser(res.data.user);

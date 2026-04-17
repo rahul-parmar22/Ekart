@@ -10,7 +10,7 @@ const params = useParams();
   const getUserOrders = async()=>{
 
         const  accessToken = localStorage.getItem("accessToken")
-         const res = await privateApi.get("/orders/user-order/${params.userId}", {
+         const res = await privateApi.get(`/orders/user-order/${params.userId}`, {
           headers:{
             Authorization:`Bearer ${accessToken}`
           }

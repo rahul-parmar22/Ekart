@@ -100,7 +100,7 @@ if(sortOrder === 'highToLow'){
 
     try {
       const res = await privateApi.put(
-       "/product/update/${editProduct._id}",
+       `/product/update/${editProduct._id}`,
         formData,
         {
           headers: {
@@ -127,7 +127,7 @@ if(sortOrder === 'highToLow'){
         (product) => product._id !== productId,
       );
       const res = await privateApi.delete(
-      "/product/delete/${productId}",
+      `/product/delete/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
