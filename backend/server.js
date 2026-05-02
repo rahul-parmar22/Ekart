@@ -7,7 +7,7 @@ import cartRoute from './routes/cartRoutes.js'
 import orderRoute from './routes/orderRoute.js'
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import fetch from "node-fetch";
+
 
 //dinesh pawar  video for deploying backen on render 
 //https://www.youtube.com/watch?v=lDpK8YWmYDA
