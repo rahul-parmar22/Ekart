@@ -7,8 +7,7 @@ import { Product } from "../models/productModel.js";
 
 export const createOrder = async (req, res) => {
   try {
-    console.log("RAZORPAY KEY ID:", process.env.RAZORPAY_KEY_ID);
-console.log("RAZORPAY SECRET:", process.env.RAZORPAY_SECRET);
+
     const { products, amount, tax, shipping, currency } = req.body;
     const options = {
       amount: Math.round(Number(amount) * 100), //convert to paise//👉 Razorpay paisa me leta hai (₹1 = 100 paise)
