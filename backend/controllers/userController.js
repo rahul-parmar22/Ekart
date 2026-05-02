@@ -244,7 +244,9 @@ export const login = async (req, res) => {
 export const refreshAccessToken = (req,res)=>{
   
   const token = req.cookies?.refreshToken;   //cookies //plural use... not req.cookie
-    
+
+  console.log("COOKIE HEADER:", req.headers.cookie);
+console.log("PARSED COOKIE:", req.cookies);
   console.log("🔁 Refresh API called");
 console.log("Cookies:", req.cookies?.refreshToken);
 
