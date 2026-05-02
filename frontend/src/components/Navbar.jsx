@@ -103,7 +103,7 @@ const Navbar = () => {
     <Link to={"/products"} onClick={() => setIsOpen(false)}>Products</Link>
 
     {user && (
-      <Link to={`/profile/${user._id}`} onClick={() => setIsOpen(false)}>
+      <Link to={`/profile/${user._id}/profile`} onClick={() => setIsOpen(false)}>
         Hello, {user.firstName}
       </Link>
     )}
