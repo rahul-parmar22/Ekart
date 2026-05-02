@@ -5,7 +5,7 @@ import { createOrder, getAllOrdersAdmin, getMyOrder, getSalesData, getUserOrders
 
 const router = Router();
 router.post("/create-order", isAuthenticated, createOrder);
-router.post("/verify-Payment", isAuthenticated, verifyPayment)
+router.post("/verify-payment", isAuthenticated, verifyPayment)
 router.get("/myorder", isAuthenticated, getMyOrder)
 router.get("/all", isAuthenticated,isAdmin,  getAllOrdersAdmin)
 router.get("/user-order/:userId", isAuthenticated,isAdmin,  getUserOrders)
