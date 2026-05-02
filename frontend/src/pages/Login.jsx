@@ -61,7 +61,40 @@ const Login = () => {
     } finally{
         setLoading(false); 
     }
-  };               
+  };      
+  
+const loginAsAdmin = async () => {
+  try {
+    setLoading(true);
+
+    const response = await publicApi.post(
+      "/user/login",
+      {
+        email: "rahulparmar1573.ty@gmail.com",
+        password: "rahul",
+      },
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "Application/json" },
+      }
+    );
+
+    if (response.data.success) {
+      dispatch(setUser(response.data.user));
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("user", response.data.user.firstName);
+
+      toast.success("Logged in as Admin", { position: "top-center" });
+
+      navigate("/dashboard/sales"); // or "/"
+    }
+
+  } catch (error) {
+    toast.error(error?.response?.data?.message || error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-red-200 px-4 sm:px-6">
@@ -136,6 +169,21 @@ const Login = () => {
               "Login"
             )}
           </Button>
+          <Button
+            onClick={loginAsAdmin}
+            type="button"
+           className="w-full bg-pink-600 hover:bg-pink-500 text-sm sm:text-base"
+         >
+            {loading ? (
+              <>
+                <Loader className="h-4 w-4 animate-spin mr-2" />
+                Please wait
+              </>
+            ) : (
+              "Direct Login as a Admin"
+            )}
+          </Button>
+
           <p className="text-center text-sm sm:text-base">
             Don't have an account?{" "}
             <Link

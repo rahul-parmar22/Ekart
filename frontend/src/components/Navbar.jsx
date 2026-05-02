@@ -83,7 +83,7 @@ const Navbar = () => {
             </Button>
           ) : (
             <Button onClick={()=>navigate('/login')} className="bg-linear-to-tl from-blue-600  to-purple-600  text-white cursor-pointer">
-              Login
+              Login/As a Admin
             </Button>
           )}
         </nav>
