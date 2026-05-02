@@ -31,7 +31,7 @@ console.log(userOrder);
 
 
   return (
-<div className='pl-[350px] py-20'>
+<div className='py-20 px-3 md:px-0'>
   <div className='max-w-7xl'>
 
   <OrderCard userOrder={userOrder} />

@@ -32,7 +32,7 @@ const ProductDesc = ({ product }) => {
 
   return (
     <div className="flex flex-col gap-4 ">
-      <h1 className=" font-bold text-4xl text-gray-800">
+<h1 className="font-bold text-2xl sm:text-4xl text-gray-800">
         {product.productName}
       </h1>
       <p>
@@ -41,12 +41,12 @@ const ProductDesc = ({ product }) => {
       <h2 className="text-pink-500 font-bold text-2xl">
         ₹{product.productPrice}
       </h2>
-      <p className="line-clamp-12 text-muted-foreground">
+    <p className="line-clamp-6 sm:line-clamp-12 text-sm sm:text-base text-muted-foreground">
         {product.productDesc}
       </p>
-      <div className="flex gap-2 items-center w-[300px]">
+      <div className="flex flex-col gap-3 sm:gap-4 w-full ">
         <p className="text-gray-800 font-semibold">Quantity :</p>
-        <Input type="number" min="1" max={product.productStock} className="w-14" defaultValue={1} />
+        <Input type="number" min="1" max={product.productStock} className="w-20 sm:w-14" defaultValue={1} />
       </div>
 
       {product.productStock > 0 ? (

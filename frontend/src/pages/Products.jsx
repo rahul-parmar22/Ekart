@@ -15,6 +15,8 @@ import { setProducts } from "@/redux/productSlice";
 import { privateApi } from "@/api/axios";
 
 const Products = () => {
+
+ 
   const { products } = useSelector((store) => store.product);
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,7 +25,10 @@ const Products = () => {
   const [brand, setBrand]= useState("All")
   const [priceRange, setPriceRange] = useState([0, 999999]);
   const [sortOrder,setSortOrder]= useState('')
+ const [openFilter, setOpenFilter] = useState(false);
+
   const dispatch = useDispatch();
+
 
   const getAllProducts = async () => {
     try {
@@ -76,9 +81,11 @@ dispatch(setProducts(filtered))
   }, []);
   console.log(allProducts);
   return (
-    <div className="pt-20 pb-10 ">
-      <div className="max-w-7xl mx-auto flex gap-7">
-        {/* sidebar */}
+    <div className="pt-20 pb-10 px-4">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
+       {/* SIDEBAR (DESKTOP ONLY) */}
+          <div className="hidden md:block lg:w-[260px] w-full">
+
         <FilterSidebar 
         search={search}
         setSearch={setSearch}
@@ -90,25 +97,80 @@ dispatch(setProducts(filtered))
         priceRange={priceRange}
         setPriceRange={setPriceRange}
          />
+        </div>
+{/* MOBILE FILTER DRAWER */}
+        {/* MOBILE FILTER DRAWER */}
+        {openFilter && (
+          <div className="fixed inset-0 z-50 flex">
+
+            <div
+              className="flex-1 bg-black/40"
+              onClick={() => setOpenFilter(false)}
+            />
+
+            <div className="w-[280px] bg-white p-4 overflow-y-auto">
+
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="font-bold">Filters</h2>
+                <button onClick={() => setOpenFilter(false)}>✕</button>
+              </div>
+
+              <FilterSidebar
+                search={search}
+                setSearch={setSearch}
+                brand={brand}
+                setBrand={setBrand}
+                category={category}
+                setCategory={setCategory}
+                allProducts={allProducts}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+              />
+            </div>
+          </div>
+        )}
+
+
+
+
+
 
         {/* Main product section// flex-1 important..flex to e extra vadheli badhi space lai le horizontally..temporary flex-1 and wihout flex-1 bg lagavine check karvu */}
         <div className="flex flex-col flex-1 ">
-          <div className="flex justify-end mb-4">
-            <Select onValueChange={(value)=>setSortOrder(value)} >
-              <SelectTrigger className="w-full max-w-50">
-                <SelectValue placeholder="Sort by Price" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="lowToHigh">Price:Low to High</SelectItem>
-                  <SelectItem value="highToLow">Price:High to Low</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+
+          {/* sort */} 
+<div className="flex flex-col min-[350px]:flex-row justify-between items-center mb-4">
+
+  <h2 className="font-semibold text-lg">Products</h2>
+
+  <div className="flex gap-2 items-center">
+
+    {/* MOBILE FILTER BUTTON */}
+    <button 
+      onClick={() => setOpenFilter(true)}
+      className="md:hidden px-3 py-1 border rounded-md text-sm"
+    >
+      Filters
+    </button>
+
+    {/* SORT */}
+    <Select onValueChange={(value)=>setSortOrder(value)}>
+      <SelectTrigger className="w-[140px] sm:w-[180px]">
+        <SelectValue placeholder="Sort" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectItem value="lowToHigh">Low → High</SelectItem>
+          <SelectItem value="highToLow">High → Low</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+
+  </div>
+</div>
 
           {/* product grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-7">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
             {products?.map((product) => { //? optional chaining nu question mark(?) must chhe..nahi to error because first time redux store ma prodcuts no hoy , api fetch thay pachhi aave products to tyare may be error aavi shake chhe 
               return (
                 <ProductCard

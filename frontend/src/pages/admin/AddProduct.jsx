@@ -90,7 +90,7 @@ const AddProducts = () => {
     <div className=" bg-gray-100 min-h-screen">
 
 
-    <div className="md:ml-[350px] max-w-7xl py-20 pr-20 mx-auto px-4  ">
+    <div className="max-w-7xl py-20 pr-20 mx-auto px-4  ">
       <Card className= " max-w-4xl my-20">
         <CardHeader>
           <CardTitle>Add Product</CardTitle>

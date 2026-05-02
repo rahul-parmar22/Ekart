@@ -8,7 +8,7 @@ export const privateApi = axios.create({
   baseURL: `${import.meta.env.VITE_BASEURL}/api/v1`,
   withCredentials: true,
 });
-
+ 
 privateApi.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
 

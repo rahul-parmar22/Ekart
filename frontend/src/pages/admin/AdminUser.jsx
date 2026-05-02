@@ -47,18 +47,18 @@ const AdminUser = () => {
   console.log(users);
   
   return (
-    <div  className="pl-[350px] py-20 pr-20 mx-auto">
+    <div  className="p-4 md:p-6 lg:p-10 mt-32 md:mt-0">
       <h1 className="font-bold text-2xl">User Management</h1>
       <p>View and manage registered users</p>
-      <div className="flex relative w-[350px] mt-6 ">
+      <div className="flex relative w-full max-w-sm mt-6 ">
         <Search className="absolute left-2 top-1 text-gray-600 " />
         <Input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="Search Userse" className="pl-10" />
       </div>
-      <div className= "max-w-7xl grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 mt-7">
+      <div className= " max-w-7xl grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mt-7">
         {
           filteredUsers.map((user,index)=>{
-            return <div key={index} className="bg-pink-100 p-5 rounded-lg">
-              <div className="flex items-center gap-2">
+            return <div key={index} className="bg-pink-100 p-4 sm:p-5 rounded-lg flex flex-col justify-between h-full">
+              <div className="flex items-center gap-3">
                 <img src={user?.profilePic || userLogo } alt="userProfilePic" className="rounded-full w-16 aspect-square object-cover  border-pink-600" />
                 <div>
                   <h1 className="font-semibold">{user?.firstName} {user?.lastName}</h1>
@@ -66,7 +66,7 @@ const AdminUser = () => {
                 </div>
               </div>
 
-              <div className="flex gap-3 mt-3">
+              <div className="flex gap-3 mt-4 flex-wrap">
                 <Button onClick = {()=>navigate(`/dashboard/users/${user?._id}`)} variant="outline" ><Edit/>Edit </Button>
                 <Button onClick={()=> navigate(`/dashboard/users/orders/${user?._id}`) } ><Eye/>Show Order</Button>
               </div>

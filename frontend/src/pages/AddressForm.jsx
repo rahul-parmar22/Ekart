@@ -41,6 +41,27 @@ const AddressForm = () => {
   };
 
   const handleSave = () => {
+      // trim karke check karo (spaces bhi reject honge)
+  const isEmpty =
+    !formData.fullName.trim() ||
+    !formData.phone.trim() ||
+    !formData.email.trim() ||
+    !formData.address.trim() ||
+    !formData.city.trim() ||
+    !formData.state.trim() ||
+    !formData.zip.trim() ||
+    !formData.country.trim();
+
+  if (isEmpty) {
+    toast.error("Please fill all fields properly");
+    return;
+  }
+
+  // optional: phone validation
+  if (formData.phone.length < 10) {
+    toast.error("Invalid phone number");
+    return;
+  }
     dispatch(addAddress(formData));
     setShowForm(false);
   };
@@ -84,7 +105,7 @@ const AddressForm = () => {
       console.log("Razorpay data:", data);
 
       const options = {  //what is option? 👉 Ye Razorpay ka configuration hai...👉 Isme sab settings hoti hain
-        key: import.meta.env.VITE_RAZORRPAY_KEY_ID,   //👉 Razorpay public key...👉 frontend me safe hoti hai
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,   //👉 Razorpay public key...👉 frontend me safe hoti hai
       
                                 //below three is 👉 Backend me jo order banaya razorpayInstance ne vo order backend ke res me aa rha hai to ye us order ki detailes hai..👉 Wo Razorpay ko pass ho raha hai
         amount: data.order.amount,   //see backend logic...what is in response given by create-order controller                                
@@ -187,9 +208,12 @@ const AddressForm = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto grid  place-items-center p-10">
-      <div className="grid grid-cols-2 items-start gap-20 mt-10  max-w-7xl mx-auto">
-        <div className="space-y-4 bg-white">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        {/* MAIN GRID */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-10">
+      
+      {/* LEFT SIDE */}
+      <div className="space-y-4 bg-white w-full">
           {showForm ? (
             <>
               <div>
@@ -306,7 +330,7 @@ const AddressForm = () => {
                     <button
                       onClick={() => dispatch(deleteAddress(index))}
                       className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-sm cursor-pointer"
-                    >
+               >
                       Delete
                     </button>
                   </div>
@@ -330,9 +354,10 @@ const AddressForm = () => {
           )}
         </div>
 
-        {/* Right side order summary  */}
-        <div>
-          <Card className="w-[400px] ">
+        {/* RIGHT SIDE */}
+      <div className="w-full flex justify-center lg:justify-end">
+
+         <Card className="w-full max-w-md">
             <CardHeader>
               <CardTitle>Order Summary</CardTitle>
             </CardHeader>

@@ -3,6 +3,12 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+
+label{
+padding-bottom: 5px;
+}
+
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

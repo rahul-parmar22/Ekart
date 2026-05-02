@@ -46,10 +46,10 @@ const AdminSales = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen ">
+   <div className="min-h-screen w-full  mt-20 md:mt-0">
 
-    <div className=" md:ml-[350px] max-w-7xl  py-20 pr-20 mx-auto px-4">
-      <div className="p-6 grid gap-6 lg:grid-cols-4">
+        <div className="max-w-7xl  mx-auto px-4 sm:px-6 py-20">
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {/* stats card */}
         <Card className="bg-pink-500 text-white shadow">
           <CardHeader>
@@ -83,9 +83,10 @@ const AdminSales = () => {
             {stats.totalSales}
           </CardContent>
         </Card>
+        </div>
 
         {/* sales chart  */}
-        <Card className="lg:col-span-4">
+        <Card className="lg:col-span-4 mt-10">
           <CardHeader>
             <CardTitle>Sales (Last 30 Days)</CardTitle>
           </CardHeader>
@@ -129,7 +130,7 @@ const AdminSales = () => {
         </Card>
       </div>
     </div>
-    </div>
+    
   );
 };
 export default AdminSales;

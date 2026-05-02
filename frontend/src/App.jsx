@@ -47,8 +47,8 @@ element:<><Login/></>
     path:'/verify/:token',     //verify/isdfhsf  means verify/ pachhi je pan hoy te badhane token ma nakhi dyo em...  params ma aa  badhu token ma aave {token} = useParams(); 
     element:<><VerifyEmail/></>
   },
-  {
-    path:'/profile/:userId', //user aa url nakhe tyare jo user login hoy toj dekahde nahito direct login page par redirect kare user ne..ane jo aa protected route no lagaviye to profile page par user hoy ane logout kare to pan profile page haji re
+  {                       //tab niche etale nakhyu because order pachhi aa order tab ma user ne redirect karvano hto to tyare different url joie....same url pas karo to profile page khule ...url page nahi mate...
+    path:'/profile/:userId/:tab', //user aa url nakhe tyare jo user login hoy toj dekahde nahito direct login page par redirect kare user ne..ane jo aa protected route no lagaviye to profile page par user hoy ane logout kare to pan profile page haji re
     element: <ProtectedRoute><Navbar/><Profile/></ProtectedRoute> 
   }, 
     {                                                                

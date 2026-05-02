@@ -49,7 +49,7 @@ export const verifyPayment = async (req, res) => { //👉 Jab payment complete h
     const {
       razorpay_order_id,
       razorpay_payment_id,
-      razorpya_signature,
+      razorpay_signature,
       paymentFailed,
     } = req.body;           //handler(response) ma je tame response tya aapo e ahi aave chhe req.body ma..ane direct destructure karie chhie aapane....
     const userId = req.user._id;
@@ -67,11 +67,11 @@ export const verifyPayment = async (req, res) => { //👉 Jab payment complete h
 
     const sign = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSignature = crypto                               //👉 Fake payment avoid karne ke liye.. 👉 Sirf Razorpay hi correct signature bana sakta hai    
-      .createHmac("sha256", process.env.RAZORPAY_SECRET)  //ahi je razorpay secret chhe e razorpayna dashboard ma tame config karelu hoy to razorpya tyathi aa badhu laine ek generate kare signature and tame aaya manually generate karavo ane banne ne check karo etale khabar padi jay ke jo same hoy to "paid" em 
+      .createHmac("sha256", process.env.RAZORPAY_SECRET)  //ahi je razorpay secret chhe e razorpayna dashboard ma tame config karelu hoy to razorpay tyathi aa badhu laine ek generate kare signature and tame aaya manually generate karavo ane banne ne check karo etale khabar padi jay ke jo same hoy to "paid" em 
       .update(sign.toString())
       .digest("hex");
 
-    if (expectedSignature === razorpya_signature) {
+    if (expectedSignature === razorpay_signature) {
  
          // ✅ Step 1: Pehle find karo.. ghani var  be var hit thai jay verify karvanu to tyare be var stock reduce thai jay to no chale..mate check karvu ke order chhe pelathi
 const order = await Order.findOne({
@@ -107,7 +107,7 @@ const updatedOrder = await Order.findOneAndUpdate(
   {
     status:"Paid",
     razorpayPaymentId:razorpay_payment_id,
-    razorpaySignature:razorpya_signature,
+    razorpaySignature:razorpay_signature,
   },
   {new:true}
 )
@@ -147,7 +147,7 @@ export const getMyOrder = async (req, res) => {
     const userId = req.id; //ahi niche find ma userna atyar sudhina badha orderes find kare aa....past ma jetala pan order hoy te badha find kare
     console.log(req.id);
 
-    const orders = await Order.find({ user: userId })
+    const orders = await Order.find({ user: userId }).sort({"createdAt":-1})
       .populate({
         path: "products.productId", //khali populate('products') karo to kai nahi male..mate destructure karine je field ma ref aapel chhe teno j path aapvu
         select: "productName productPrice productImg", //this method always use in production when we want to add more options like match, sort, etc....populate({ path: "products.productId", select: "productName price", match: { isActive: true }, options: { sort: { price: -1 } } }) aa path vala option ma aavu thay pan simple populate('products.productId', 'productName pPrice') ma te sort vagere add no kari shakvi..to use pramane syntax use karvi

@@ -29,7 +29,9 @@ const MyOrder = () => {
 
   return (
 <>
+  <div className="pt-20 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto">
 <OrderCard userOrder={userOrder} />
+</div>
 </>
   );
 };

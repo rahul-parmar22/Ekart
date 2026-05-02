@@ -149,17 +149,16 @@ if(sortOrder === 'highToLow'){
   return (
     <div className="bg-gray-100">
 
-    <div className="md:ml-[350px] ml-4 max-w-7xl  py-20 pr-20 flex flex-col gap-3 min-h-screen ">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 flex flex-col gap-3 min-h-screen">
 
-      <div>jyare admin product ne ahithi delete kari nakhe ane user e past ma e order karelo hoy to pachhi user na jya order show tahya tya  product no batave..ka pachhi tyare e samaye tya user ne kaik biju lakhelu aave ke this product was deleted evu kaik karvu setting</div>
-      <div className="flex  justify-between ">
+       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="relative bg-white rounded-lg">
           <Input
             type="text"
           value={search}
           onChange={(e)=>setSearch(e.target.value)}
             placeholder="Search Product..."
-            className="w-[400px] items-center"
+          className="w-full sm:w-[400px]"
           />
           <Search className="absolute right-3 top-1.5 text-gray-500" />
         </div>
@@ -180,36 +179,39 @@ if(sortOrder === 'highToLow'){
       {filteredProducts.map((product, index) => {
         return (
           <Card key={index} className="px-4 ">
-            <div className="flex items-center justify-between">
-              <div className="flex gap-2 items-center">
+           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+       <div className="flex items-center gap-3 w-full md:w-auto">
+
                 <img
                 onClick={()=>navigate(`/products/${product._id}`)}
                   //  src={product.productImg[0].url}  //cloudinary thi account nu setting thay etale aa comment uncomment kari nakhvi
                     src={ product?.productImg[0]?.url|| userLogo}
                   alt="product Image"
-                  className="w-25 h-25 cursor-pointer rounded-md"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-md cursor-pointer object-cover"
 
                 />
-                <h1 className="font-bold w-96 text-gray-700">
-                  {product.productName}
+             <h1 className="font-bold text-gray-700 truncate max-w-[180px] sm:max-w-[300px] md:max-w-[400px]">
+      {product.productName}
                 </h1>
               </div>
-              <h1>₹{product.productPrice}</h1>
-              <div className="flex gap-3">
+                <div className="flex items-center justify-between md:justify-end w-full md:w-auto gap-4">
+
+                  <h1 className="font-semibold whitespace-nowrap">₹{product.productPrice}</h1>
+              <div className="flex gap-3 items-center">
                 <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
                     <Edit
                       onClick={() => {
                         (setOpen(true), setEditProduct(product));
                       }}
-                      className="text-green-500 cursor-pointer "
+                      className="text-green-500 cursor-pointer w-5 h-5 "
                     />
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[625px] max-h-[740px] overflow-y-scroll">
                     <DialogHeader>
                       <DialogTitle>Edit Products</DialogTitle>
                       <DialogDescription>
-                        Make changes to your profile here. Click save when
+                        Make changes to your product here. Click save when
                         you&apos;re done.
                       </DialogDescription>
                     </DialogHeader>
@@ -309,8 +311,9 @@ if(sortOrder === 'highToLow'){
 
                 <AlertDialog>
                   <AlertDialogTrigger>
-                    <Trash2 className="text-red-500 cursor-pointer" />
-                  </AlertDialogTrigger>
+                   <Trash2 className="text-red-500 cursor-pointer w-5 h-5" />
+                   
+                     </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
@@ -318,7 +321,7 @@ if(sortOrder === 'highToLow'){
                       </AlertDialogTitle>
                       <AlertDialogDescription>                                           
                         This action cannot be undone. This will permanently
-                        delete your account from our servers.
+                        delete your product from our database.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -329,6 +332,7 @@ if(sortOrder === 'highToLow'){
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
+              </div>
               </div>
             </div>
           </Card>

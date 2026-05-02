@@ -14,7 +14,7 @@ const SingleProduct = () => {
   return (
     <div className="pt-20 py-10 max-w-7xl mx-auto">
       <Breadcrums product={product} />
-      <div className="mt-10 grid grid-cols-2 items-start">
+    <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start px-4">
         <ProductImg images={product.productImg} />
         <ProductDesc product={product} />
       </div>

@@ -48,39 +48,52 @@ const ProductCard = ({ product, img, loading }) => {
   };
 
   return (
-    <div className="shadow-lg rounded-lg overflow-hidden h-max">
-      <div className="w-full h-full aspect-square overflow-hidden">
+    <div className=" bg-white  shadow-md  rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col">
+   {/* Image */} 
+      <div className="aspect-square overflow-hidden bg-gray-100">
         {loading ? (
           <div>
-            <Skeleton className="w-full h-full rounded-full " />
+            <Skeleton className="w-full h-full" />
           </div>
         ) : (
           <img //image scale karo tyare bahar no jay img tethi aani parent div ma overflow hidden chhe
                src={productImg[0]?.url || img}
             onClick={()=>navigate(`/products/${product._id}`)}
          
-            alt="image"
-            className="w-full h-full transition-transform duration-300 hover:scale-105"
+            alt="product"
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
           />
         )}
       </div>
+
+      {/* CONTENT */}
+      <div className="p-3 flex flex-col flex-1 justify-between">
+
       {loading ? (
-        <div className="px-2 space-y-2 my-2">
-          <Skeleton className="w-50 h-4 " />
-          <Skeleton className="w-25 h-4 " />
-          <Skeleton className="w-40 h-8 " />
+        <div className="space-y-2">
+         <Skeleton className="h-4 w-[80%]" />
+        <Skeleton className="h-4 w-[40%]" />
+        <Skeleton className="h-8 w-full" />
         </div>
       ) : (
-        <div className="px-2 space-y-1">
-          <h1 className="font-semibold h-12 line-clamp-2">{productName}</h1>
-          <h2 className="font-bold">₹{productPrice}</h2>
-          <Button disabled={productStock <= 1} onClick={()=>addToCart(product._id)} className="bg-pink-600 mb-2 w-full cursor-pointer">
-            <ShoppingCart />
-            Add to Cart{" "}
+        <div className=" space-y-1">
+          <h1 className="text-sm sm:text-base font-medium line-clamp-2 min-h-[40px]">
+          {productName}
+        </h1>
+
+                <h2 className="text-pink-600 font-bold text-sm sm:text-base mt-1">
+          ₹{productPrice}
+        </h2>
+
+          <Button disabled={productStock <= 1} onClick={()=>addToCart(product._id)} className="mt-3 bg-pink-600 hover:bg-pink-700 text-white text-xs sm:text-sm h-9 w-full">
+            <ShoppingCart className="w-4 h-4 " />
+            <span className="sm:hidden">Add</span>
+            <span className="hidden sm:inline"> Add to Cart</span>
           </Button>
   
         </div>
       )}
+      </div>
     </div>
   );
 };

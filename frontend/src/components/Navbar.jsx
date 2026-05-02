@@ -1,5 +1,5 @@
-import { ShoppingCart } from "lucide-react";
-import React from "react";
+import { ShoppingCart, Menu, X} from "lucide-react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
@@ -19,8 +19,10 @@ const Navbar = () => {
                                   //<Link> jyare koi div par, ke button par click karya pachhi page ne change karvu hoy like navbar ni andar na , footer ni andarna  badha click karvathi change thay page evi jagyae link tag no use thay 
                                   //<Navigate> aa tyare vapray jyare conditional based pagene redirect karvanu hoy tyare ane protected routes ma...like {!user && <Navigate to="/login" />}...pachhi aama callback fun aapine navigate no karvanu hoy...aa direct instantly redirect kare page ne.... .most of protected routes ma...ke user admin no hoy to route change kare user url ma to automatic direct redirect kare login page ma..
                                   //<Navigate> redirect kare page ne.. uparna bey url ma change kare ane pachhi page show thay em..aa direct par java de....
-                                  const logoutHandler = async () => {
-    try {
+  const [isOpen, setIsOpen] = useState(false);                       
+                            
+   const logoutHandler = async () => {
+   try {
       const res = await publicApi.post(
        "/user/logout",
         {},
@@ -41,7 +43,7 @@ const Navbar = () => {
  
 
   return (
-    <header className="bg-pink-50 fixed w-full z-20 border-b border-pink-200 ">
+    <header className="bg-pink-50 fixed w-full z-20 border-b border-pink-200 h-16">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-3">
         {/* logo section */}
         <div className="text-lg text-pink-600 flex items-center">
@@ -50,7 +52,7 @@ const Navbar = () => {
         </div>
 
         {/* nav section  */}
-        <nav className="flex gap-10 justify-between items-center">
+        <nav className="hidden md:flex gap-10 justify-between items-center">
           <ul className="flex gap-7 items-center text-xl font-semibold">
             <Link to={"/"}> 
               <li>Home</li>
@@ -59,7 +61,7 @@ const Navbar = () => {
               <li>Products</li>
             </Link>
             {user && (
-              <Link to={`/profile/${user._id}`}>
+              <Link to={`/profile/${user._id}/profile`}>
                 <li>Hello, {user.firstName}</li>
               </Link>
             )}
@@ -85,6 +87,51 @@ const Navbar = () => {
             </Button>
           )}
         </nav>
+
+<div className="md:hidden">
+  <button onClick={()=> setIsOpen(!isOpen)}> 
+    {isOpen? <X size={28}/> : <Menu size={28}/>}
+  </button>
+</div>
+
+      {/* ✅ MOBILE MENU */}
+{isOpen && (
+  <div className="fixed flex flex-col items-center top-16 left-0 w-full bg-pink-50 border-t border-pink-200 px-6 py-6 space-y-4 z-50 shadow-lg md:hidden">
+
+    <Link to={"/"} onClick={() => setIsOpen(false)}>Home</Link>
+
+    <Link to={"/products"} onClick={() => setIsOpen(false)}>Products</Link>
+
+    {user && (
+      <Link to={`/profile/${user._id}`} onClick={() => setIsOpen(false)}>
+        Hello, {user.firstName}
+      </Link>
+    )}
+
+    {admin && (
+      <Link to={`/dashboard/sales`} onClick={() => setIsOpen(false)}>
+        Dashboard
+      </Link>
+    )}
+
+    <Link to={"/cart"} onClick={() => setIsOpen(false)}>
+      Cart ({cart?.items?.length})
+    </Link>
+
+    {user ? (
+      <Button onClick={logoutHandler} className="w-full bg-pink-600 text-white">
+        Logout
+      </Button>
+    ) : (
+      <Button onClick={() => navigate('/login')} className="w-full bg-blue-600 text-white">
+        Login
+      </Button>
+    )}
+  </div>
+)}
+
+
+
       </div>
     </header>
   );

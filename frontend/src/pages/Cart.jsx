@@ -91,36 +91,49 @@ const Cart = () => {
   return (
     <div className="pt-20 bg-gray-50 min-h-screen">
       {cart?.items?.length > 0 ? (
-        <div className="max-w-7xl mx-auto">
+       <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-7">
             Shopping Cart
           </h1>
-          <div className="max-w-7xl mx-auto flex gap-7">
+ <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-7 px-0.5 overflow-x-hidden">
             <div className="flex flex-col gap-5 flex-1">
               {cart?.items?.map((product, index) => {
                 return (
                   <Card key={index}>
-                    <div className="flex justify-between items-center pr-7 ">
-                      <div className=" flex items-center w-[350px] gap-1">
-                        <Link to={`/products/${product?.productId?._id}`}>
+<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4">
+  
+                       <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <Link to={`/products/${product?.productId?._id}`}
+                        className="w-16 h-16 sm:w-20 sm:h-20 flex-shrink:0 ">
+
+
                           <img //navigate on click par karva karta link tag no use karvo ..vadhare saru lage..
                             src={
                               product?.productId?.productImg?.[0]?.url ||
                               userLogo
                             }
                             alt="cart product image"
-                            className="w-25 h-25 rounded-full"
-                          />
+                           className="w-full h-full rounded-full object-cover"
+                             />
                         </Link>
-                        <div className="w-[280px]">
-                          <h1 className="font-semibold truncate">
-                            {product?.productId?.productName}
-                          </h1>
-                          <p>₹{product?.productId?.productPrice}</p>
-                        </div>
+
+  {/* TEXT (flexible, no overflow) */}
+
+  <div className="w-[180px] sm:w-[250px] md:w-[280px] min-w-0">
+  <h1 className="font-semibold truncate">
+    {product?.productId?.productName}
+  </h1>
+  <p className="text-sm">
+    ₹{product?.productId?.productPrice}
+  </p>
+</div>
+
+                        
                       </div>
 
-                      <div className="flex flex-col items-center gap-3">
+                      
+
+           <div className="flex items-center sm:flex-col gap-3 sm:items-end">
                         {product?.productId?.productStock > 0 ? (
                           <div className="flex gap-5 items-center">
                             {/* niche button ma variant hatavine pan joi levu..diff variant aave jema alag design hoy ..shadcn na badha component ma */}
@@ -161,9 +174,10 @@ const Cart = () => {
                         )}
 
                         <div className="font-medium">
-                          {product?.productId?.productStock}
+                          Stock: {product?.productId?.productStock}
                         </div>
                       </div>
+                      <div className="flex items-center gap-4 sm:flex-col sm:items-end">
                       <p>
                         ₹{product?.productId?.productPrice * product?.quantity}
                       </p>
@@ -173,13 +187,14 @@ const Cart = () => {
                       >
                         <Trash2 className="w-4 h-4" />
                       </p>
+                      </div>
                     </div>
                   </Card>
                 );
               })}
             </div>
             <div>
-              <Card className="w-[400px]">
+              <Card className="w-full lg:w-[400px]">
                 <CardHeader>
                   <CardTitle>Order Summary</CardTitle>
                 </CardHeader>

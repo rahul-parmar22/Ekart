@@ -64,18 +64,18 @@ const Login = () => {
   };               
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-red-200">
-      <Card className="w-full max-w-sm ">
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
+    <div className="min-h-screen flex justify-center items-center bg-red-200 px-4 sm:px-6">
+      <Card className="w-full max-w-sm sm:max-w-md md:max-w-lg shadow-lg">
+        <CardHeader className="space-y-1 text-center sm:text-left">
+          <CardTitle  className="text-xl sm:text-2xl font-bold">Login to your account</CardTitle>
+          <CardDescription className="text-sm sm:text-base">
             Enter given detailes below to login your account
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-sm sm:text-base">Email</Label>
 
               <Input
                 id="email"
@@ -85,13 +85,14 @@ const Login = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
+                 className="text-sm sm:text-base"
               />
             </div>
 
             <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-              </div>
+            <Label htmlFor="password" className="text-sm sm:text-base">
+              Password
+            </Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -101,17 +102,18 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
+                  className="pr-12 text-sm sm:text-base"
                 />
                 {showPassword ? (
                   <EyeOff
                     onClick={() => setShowPassword(false)}
-                    className="h-5 text-gray-700 absolute bottom-2 right-5"
+                   className="h-5 w-5 text-gray-700 absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                   />
                 ) : (
                   <Eye
                     onClick={() => setShowPassword(true)}
-                    className="h-5 text-gray-700 absolute bottom-2 right-5"
-                  />
+                    className="h-5 w-5 text-gray-700 absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                 />
                 )}
 
                 <div>{showPassword} </div>
@@ -119,12 +121,12 @@ const Login = () => {
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex-col gap-2">
+        <CardFooter className=" flex flex-col gap-3">
           <Button
             onClick={submitHandler}
             type="submit"
-            className="w-full cursor-pointer bg-pink-600 hover:bg-pink-500 "
-          >
+           className="w-full bg-pink-600 hover:bg-pink-500 text-sm sm:text-base"
+         >
             {loading ? (
               <>
                 <Loader className="h-4 w-4 animate-spin mr-2" />
@@ -134,12 +136,11 @@ const Login = () => {
               "Login"
             )}
           </Button>
-          <p>
+          <p className="text-center text-sm sm:text-base">
             Don't have an account?{" "}
             <Link
               to={"/signup"}
-              className="hover:underline cursor-pointer text-pink-800 text-sm"
-            >
+            className="hover:underline text-pink-800"   >
               Signup
             </Link>{" "}
           </p>

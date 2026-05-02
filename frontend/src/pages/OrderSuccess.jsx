@@ -3,6 +3,8 @@ import { CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const OrderSuccess = () => {
+
+  const userId = localStorage.getItem("userId")
     const navigate = useNavigate(); 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
@@ -27,7 +29,7 @@ const OrderSuccess = () => {
         Continue Shopping
     </button>
     <button
-    onClick={()=>navigate("/orders")}
+    onClick={()=>navigate(`/profile/${userId}/orders`)}
     className="w-full border border-pink-600 text-pink-600 py-3 rounded-xl hover:bg-pink-50 transition cursor-pointer"
     >
         View My Order

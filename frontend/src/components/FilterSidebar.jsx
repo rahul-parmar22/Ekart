@@ -1,6 +1,5 @@
 import React from "react";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 
 const FilterSidebar = ({
@@ -47,7 +46,7 @@ const FilterSidebar = ({
     setPriceRange([0, 999999]);
   };
   return (
-    <div className="bg-gray-100 mt-10 p-4  rounded-md h-max hidden md:block w-64">
+   <div className="bg-gray-100 p-4 rounded-md w-full">
       {/* Search  */}
       <Input
         type="text"
@@ -57,7 +56,7 @@ const FilterSidebar = ({
         className="bg-white  p-2 rounded-md border-gray-400 border-2 w-full"
       />
       {/* Category  */}
-      <h1 className="mt-5 font-semibold text-xl  ">Category</h1>
+      <h1 className="mt-5 font-semibold ">Category</h1>
       <div className="flex flex-col gap-2 mt-3">
         {UniqueCategory.map((item, index) => (
           <div key={index} className="flex  items-center gap-2">
@@ -73,14 +72,14 @@ const FilterSidebar = ({
       </div>
 
       {/*Brands  */}
-      <h1 className="mt-5 font-semibold text-xl  ">Brand</h1>
-      <select value={brand} onChange={handleBrandChange} className="bg-white w-full p-2 border-gray-200 border-2 rounded-md ">
+      <h1 className="mt-5 font-semibold">Brand</h1>
+      <select value={brand} onChange={handleBrandChange} className="bg-white w-full p-2 border-gray-200 border-2 rounded ">
         {UniqueBrand.map((item, index) => {
           return <option key={index} value={item} >{item.toUpperCase()}</option>;
         })}
       </select>
       {/* Price range */}
-      <h1 className="mt-5 font-semibold text-xl mb-3">Price Range</h1>
+      <h1 className="mt-5 font-semibold mb-3">Price Range</h1>
 
       <div className="flex flex-col gap-2">
         <label>

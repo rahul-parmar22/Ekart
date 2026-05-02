@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "../components/ui/label.jsx";   //manually rite import location
 import { Input } from "@/components/ui/input"; //bydefault shadcn ni rite location aave
 import { Button } from "@/components/ui/button";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
@@ -38,6 +38,7 @@ const [updateUser, setUpdateUser] = useState({
   role:user?.role
 })
 
+const navigate = useNavigate(); 
 const [file,setFile] = useState(null);
 const[loading , setLoading] = useState(false); 
 const dispatch = useDispatch(); 
@@ -101,9 +102,9 @@ console.log(res.data)
 }
 
   return (
-    <div className="pt-20 min-h-screen bg-gray-100 ">
-      <Tabs defaultValue="profile" className="max-w-7xl mx-auto items-center">
-        <TabsList>
+    <div className="pt-20 min-h-screen bg-gray-100 px-4">
+      <Tabs  value={params.tab || "profile"} onValueChange={(value)=>navigate(`/profile/${userId}/${value}`)} className="max-w-7xl mx-auto items-center">
+        <TabsList>         
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="orders">Orders</TabsTrigger>
         </TabsList>
@@ -112,7 +113,7 @@ console.log(res.data)
             <h1 className="text-2xl font-bold  mb-6 text-gray-800">
               Update Profile
             </h1>
-            <div className="w-full flex gap-10 justify-between items-start px-7 max-w-2xl">
+            <div className="w-full flex flex-col md:flex-row gap-8 md:gap-10 justify-between items-center  md:items-start px-4 md:px-7 max-w-2xl">
 
             {/* profile picture  */}
             <div className="flex flex-col items-center">
@@ -120,7 +121,7 @@ console.log(res.data)
                 <img
                   src={updateUser.profilePic ||'/defaultProfilePic.png'}
                   alt="defaultProfilePic"
-                  className="w-32 h-32 rounded-full object-cover border-4 border-pink-800"
+                  className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-pink-800"
                 />
 
                  <Label className="mt-4 cursor-pointer  bg-pink-600  text-white px-4 py-2  rounded-lg  hover:bg-pink-700">
@@ -138,8 +139,8 @@ console.log(res.data)
              
             </div>
             {/* profile form  */}
-            <form onSubmit={handleSubmit} className="space-y-4 shadow-lg p-5 rounded-lg bg-white">
-                <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="w-full md:w-auto space-y-4 shadow-lg p-5 rounded-lg bg-white">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <Label className='block text-sm font-medium'>First Name</Label>
                         <Input
@@ -193,7 +194,7 @@ console.log(res.data)
 
                      className='w-full border rounded-lg px-3 py-2 mt-1 ' />
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col md:flex-row gap-4 md:justify-between">
                    <div>
                     <Label className='block font-medium text-sm' >City</Label>
                     <Input 
