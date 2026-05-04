@@ -8,6 +8,7 @@ import orderRoute from './routes/orderRoute.js'
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
+
 //dinesh pawar  video for deploying backen on render 
 //https://www.youtube.com/watch?v=lDpK8YWmYDA
 
@@ -32,8 +33,23 @@ app.use("/api/v1/orders", orderRoute);
 const createConnection = async () => {
   try {
     await connectDB();
-    app.listen(port, (req, res) =>
-      console.log(`server listening on http://localhost:${port}`),
+    app.listen(port, (req, res) =>{
+      console.log(`server listening on http://localhost:${port}`)
+
+  const URL = "https://ekart-x65h.onrender.com/ping";
+
+  const ping = async () => {    //for making feature like cron job..for continue server running....
+    try { 
+      await fetch(URL);
+      console.log("Ping sent");
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+   ping();
+  setInterval(ping, 10 * 60 * 1000);
+       
+    }
     );
   } catch (error) {
     console.log(error.message);

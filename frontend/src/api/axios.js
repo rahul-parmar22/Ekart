@@ -6,7 +6,7 @@ export const publicApi = axios.create({
 
 export const privateApi = axios.create({
   baseURL: `${import.meta.env.VITE_BASEURL}/api/v1`,
-  withCredentials: true,
+  withCredentials: true,  
 });
  
 privateApi.interceptors.request.use((config) => {
@@ -22,15 +22,22 @@ privateApi.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (  error.response && error.response.status === 401 && !originalRequest._retry) {  // condition etale chhe ke jo ek var 401 aavyu to retry thay ane pachhu retry ma pan 401 aavyu to aa ek loop banine infine request moklya kare to very bad...like jyare refresh token j expire thai gyu hoy tyare aa situation aave  to mate aa conditino ke jo ek var retry karyu to biji var mate reject...
+ if (     //condition because of  ghani var loop ma pan fasay jay 401 aave pachhu potane call kare pachhu error ..to evu no thay mate aa 
+  error.response &&
+  error.response.status === 401 &&
+  !originalRequest._retry &&
+  !originalRequest.url?.includes("/user/refreshAccessToken")
+) { // condition etale chhe ke jo ek var 401 aavyu to retry thay ane pachhu retry ma pan 401 aavyu to aa ek loop banine infine request moklya kare to very bad...like jyare refresh token j expire thai gyu hoy tyare aa situation aave  to mate aa conditino ke jo ek var retry karyu to biji var mate reject...
       originalRequest._retry = true;                                             //upar condition ma _retry ka role: ek request ko sirf 1 baar refresh allow..dubara fail hua → direct reject
 
       //refresh call
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASEURL}/api/v1/user/refreshAccessToken`,
-        {},
-        { withCredentials: true },    //withcredentials jya jya aapela chhe tya tya khas aapvana ...server.js ma , login forntnend api call karvi tya,login backend contorller jya chhe tya,  ane ahiya .... 
-      );
+ const res = await axios.post(
+  `${import.meta.env.VITE_BASEURL}/api/v1/user/refreshAccessToken`,
+  {},
+  { withCredentials: true }      //withcredentials jya jya aapela chhe tya tya khas aapvana ...server.js ma , login forntnend api call karvi tya,login backend contorller jya chhe tya,  ane ahiya .... 
+
+);
+     
       const newAccessToken = res.data.accessToken;
 console.log("🔄 New Access Token Generated:", newAccessToken);
 
