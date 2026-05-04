@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, {useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -51,6 +51,16 @@ const AdminProduct = () => {
   const accessToken = localStorage.getItem("accessToken");
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
+
+const fetchProducts = async()=>{ //aa component ma products  navbar ma product page  par visit kre to pachhi set thay redux ma , pan jyare admin aave to direct admin dashboard ma admin product page ma jay to tya empty hoy mate tena mate chhe aa...ane niche teni useeffect ma conditon pan chhe
+     const res = await privateApi.get("product/getallproducts");
+     if(res.data.success) dispatch(setProducts(res.data.products)); 
+}
+useEffect(()=>{
+  if(!products.length) fetchProducts(); 
+  console.log("product was fetching")
+},[]); 
+
 
 let filteredProducts = products.filter((product)=> //jo ahi { } use karo to return aapvu mendatory 1110% nahito ena wina direct karo wihotu paranthesis to no aapvu
   product.productName.toLowerCase().includes(search.toLowerCase()) ||

@@ -30,7 +30,7 @@ const Products = () => {
   const dispatch = useDispatch();
 
 
-  const getAllProducts = async () => {
+ const getAllProducts = async () => {
     try {
       setLoading(true);
       const res = await privateApi.get(
