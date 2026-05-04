@@ -118,15 +118,15 @@ const Navbar = () => {
       Cart ({cart?.items?.length})
     </Link>
 
-    {user ? (
-      <Button onClick={logoutHandler} className="w-full bg-pink-600 text-white">
-        Logout
-      </Button>
-    ) : (
-      <Button onClick={() => navigate('/login')} className="w-full bg-blue-600 text-white">
-        Login
-      </Button>
-    )}
+          {user ? (
+            <Button onClick={logoutHandler} className="bg-pink-600 text-white cursor-pointer">
+              Logout
+            </Button>
+          ) : (
+            <Button onClick={()=>navigate('/login')} className="bg-linear-to-tl from-blue-600  to-purple-600  text-white cursor-pointer">
+              Login/As a Admin
+            </Button>
+          )}
   </div>
 )}
 
